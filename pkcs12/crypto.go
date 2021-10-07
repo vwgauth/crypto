@@ -12,7 +12,7 @@ import (
 	"encoding/asn1"
 	"errors"
 
-	"crypto/pkcs12/internal/rc2"
+	"github.com/vwgauth/crypto/pkcs12/internal/rc2"
 )
 
 var (
