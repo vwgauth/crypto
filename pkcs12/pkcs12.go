@@ -160,8 +160,6 @@ func convertBag(bag *safeBag, password []byte) (*pem.Block, error) {
 		}
 		block.Bytes = certsData
 	case bag.Id.Equal(oidPKCS8ShroundedKeyBag):
-		block.Type = privateKeyType
-
 		key, err := decodePkcs8ShroudedKeyBag(bag.Value.Bytes, password)
 		if err != nil {
 			return nil, err
@@ -169,8 +167,10 @@ func convertBag(bag *safeBag, password []byte) (*pem.Block, error) {
 
 		switch key := key.(type) {
 		case *rsa.PrivateKey:
+			block.Type = "RSA PRIVATE KEY"
 			block.Bytes = x509.MarshalPKCS1PrivateKey(key)
 		case *ecdsa.PrivateKey:
+			block.Type = "EC PRIVATE KEY"
 			block.Bytes, err = x509.MarshalECPrivateKey(key)
 			if err != nil {
 				return nil, err
